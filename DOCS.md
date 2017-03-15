@@ -11,8 +11,7 @@ If both `api` and `region` are set, `api` will be used. If no region is set, the
 deploy:
   image: ibmclouddevops/drone-bluemix-cloudfoundry
   org: cloud
-  space: devops
-  user: ${USER}
+  space: production
   when:
     branch: master
 ```
@@ -51,8 +50,10 @@ deploy:
 ## Secrets
 
 All required fields are also supported by secrets:
-
 - `BLUEMIX_USER`
 - `BLUEMIX_PASSWORD`
 - `BLUEMIX_ORG`
 - `BLUEMIX_SPACE`
+
+In addition, the following fields are supported by secrets:
+- `BLUEMIX_API`
