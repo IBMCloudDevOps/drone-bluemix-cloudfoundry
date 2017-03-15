@@ -2,14 +2,17 @@ Use this plugin for deploying an application to Cloud Foundry. This is a bash sc
 that uses the Cloud Foundry CLI to login and deploy. More info and documentation about 
 the CLI can be found [here](https://github.com/cloudfoundry/cli)
 
+If both `api` and `region` are set, `api` will be used. If no region is set, the `ng` region will be used, and the API targetted wil be `https://api.ng.bluemix.net`
+
+
 ## Example
 
 ```yaml
 deploy:
-  image: cheslip/drone-cloudfoundry
-  api: api.run.pivotal.io
-  org: pivotal
-  space: production
+  image: ibmclouddevops/drone-bluemix-cloudfoundry
+  org: cloud
+  space: devops
+  user: ${USER}
   when:
     branch: master
 ```
@@ -18,17 +21,18 @@ deploy:
 
 | Option | Description | Example |
 | ------ | ----------- | ---- |
-| `api` (**required**) | Target API | `api.run.pivotal.io` |
 | `org` (**required**) | Target Org | `xyz-org` |
 | `space` (**required**) | Target Space | `development` |
 | `user` (**required**) | Auth username | `john@doe.com` |
 | `password` (**required**) | Auth password | `supersecure` |
+| `api` | Target API | `api.ng.bluemix.net` |
+| `region` | Target region | `ng | eu-gb | au-sdy` |
 | `name` | Override application name | `app-canary` |
 | `buildpack` | Custom buildpack | `https://....` |
 | `command` | Startup command | `start-script.sh` |
 | `domain` | Domain | `example.com` |
 | `manifest` | Path to manifest | `test.manifest.yml` |
-| `docker_image` | Image name | `cheslip/drone-cloudfoundry` |
+| `docker_image` | Image name | `ibmclouddevops/drone-bluemix-cloudfoundry` |
 | `instances` | Number of instances | `4` |
 | `disk` | Disk limit | `256M` |
 | `memory` | Memory limit | `1G` |
@@ -48,8 +52,7 @@ deploy:
 
 All required fields are also supported by secrets:
 
-- `CF_API`
-- `CF_USER`
-- `CF_PASSWORD`
-- `CF_ORG`
-- `CF_SPACE`
+- `BLUEMIX_USER`
+- `BLUEMIX_PASSWORD`
+- `BLUEMIX_ORG`
+- `BLUEMIX_SPACE`
