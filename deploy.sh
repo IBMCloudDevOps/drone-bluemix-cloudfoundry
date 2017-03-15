@@ -16,14 +16,19 @@
 set -e
 
 # check required vars and secrets
-required=(PLUGIN_API PLUGIN_USER PLUGIN_PASSWORD PLUGIN_ORG PLUGIN_SPACE)
+required=(PLUGIN_USER PLUGIN_PASSWORD PLUGIN_ORG PLUGIN_SPACE)
 
 for arg in ${required[@]}
 do
     eval [[ -n \$$arg ]] && continue
-    eval [[ -z \$${arg/PLUGIN/CF} ]] && echo "${arg:7} is not defined!" && exit 1
-    eval $arg=\$${arg/PLUGIN/CF}
+    eval [[ -z \$${arg/PLUGIN/BLUEMIX} ]] && echo "${arg:7} is not defined!" && exit 1
+    eval $arg=\$${arg/PLUGIN/BLUEMIX}
 done
+
+# Regions include: ng (US South), eu-gb (United Kingdom), au-syd (Sydney)
+# Use the PLUGIN_API if it is set, otherwise use the plugin region (if neither are set, defualt to US South)
+[[ -z $PLUGIN_API ]] && [[ -z $PLUGIN_REGION ]] && PLUGIN_REGION="ng"
+[[ -z $PLUGIN_API ]] && [[ -n $PLUGIN_REGION ]] && PLUGIN_API="https://api.$PLUGIN_REGION.bluemix.net"
 
 # set cloud foundry API
 cf api $PLUGIN_API
