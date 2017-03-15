@@ -19,7 +19,7 @@ set -e
 required=(PLUGIN_USER PLUGIN_PASSWORD PLUGIN_ORG PLUGIN_SPACE)
 
 # If the user has set the secret BLUEMIX_API, add PLUGIN_API to the required list (loop below will set PLUGIN_API=$BLUEMIX_API
-[[ -n BLUEMIX_API ]] && required+=(PLUGIN_API)
+[[ -n $BLUEMIX_API ]] && required+=(PLUGIN_API)
 
 # Check required values, replace values with secret if if not set
 for arg in ${required[@]}
